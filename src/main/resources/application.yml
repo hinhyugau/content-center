@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:mysql://db.mysql:3366/content_center
+    hikari:
+      username: root
+      password: Jc1207
+      driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    com:
+     itmuch:
+      contentcenter: debug
+server:
+  port: 8081
