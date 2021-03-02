@@ -21,8 +21,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class MidUserShareServiceImpl extends ServiceImpl<MidUserShareMapper, MidUserShare> implements MidUserShareService {
     private final MidUserShareMapper midUserShareMapper;
+
     @Override
     public void add(MidUserShareDTO midUserShareDto) {
-        midUserShareMapper.insert(midUserShareDto);
+
     }
 }

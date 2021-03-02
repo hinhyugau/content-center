@@ -5,6 +5,11 @@ spring:
       username: root
       password: Jc1207
       driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: nacos.han:8848
+        service: content-center
 logging:
   level:
     com:

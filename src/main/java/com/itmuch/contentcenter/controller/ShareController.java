@@ -4,10 +4,14 @@ import com.itmuch.contentcenter.domain.dto.ShareDTO;
 import com.itmuch.contentcenter.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 服务控制器
@@ -23,8 +27,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class ShareController {
     private final ShareService shareService;
 
+    private final DiscoveryClient discoveryClient;
+
     @GetMapping("/{id}")
     public ShareDTO findShareById(@PathVariable Integer id) {
         return this.shareService.findShareById(id);
+    }
+
+    /**
+     * 测试： 服务发现，证明内容中心总能找到用户中心
+     *
+     * @return
+     */
+    @GetMapping("/test")
+    public List<ServiceInstance> setDiscoveryClient() {
+        return discoveryClient.getInstances("user-center");
     }
 }
