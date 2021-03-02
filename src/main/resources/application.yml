@@ -10,10 +10,21 @@ spring:
       discovery:
         server-addr: nacos.han:8848
         service: content-center
+        #namespace: 198b9493-90f1-435e-8b10-3113a628acaa   指定namespace
+        #cluster-name: NJ  指定集群名称
+  application:
+    name: content-center
 logging:
   level:
     com:
      itmuch:
-      contentcenter: debug
+      contentcenter: info
 server:
   port: 8081
+#user-center:
+#  ribbon:
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+ribbon:
+  eager-load:
+    enabled: true
+    clients: user-center

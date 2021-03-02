@@ -9,12 +9,8 @@ import com.itmuch.contentcenter.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cloud.client.ServiceInstance;
-import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.List;
 
 /**
  * 服务接口实现
@@ -29,7 +25,7 @@ import java.util.List;
 public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements ShareService {
     private final RestTemplate restTemplate;
 
-    private final DiscoveryClient discoveryClient;
+    //private final DiscoveryClient discoveryClient;
 
     /**
      * 根据id查询Share
@@ -43,14 +39,17 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
         Share share = this.baseMapper.selectById(id);
         //发布人Id
         Integer userId = share.getUserId();
-        List<ServiceInstance> instances = this.discoveryClient.getInstances("user-center");
-        String targetUrl = instances.stream()
+       /* List<ServiceInstance> instances = this.discoveryClient.getInstances("user-center");
+        List<String> targetURLS = instances.stream()
                 .map(instance -> instance.getUri().toString() + "/users/{id}")
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("当前没实例！"));
+                .collect(Collectors.toList());
+        int i = ThreadLocalRandom.current().nextInt(targetURLS.size());
+
         //调用用户微服务的/users/{userId}
         //用HTTP GET方法请求，并且返回一个对象
-        UserDTO forObject = restTemplate.getForObject(targetUrl, UserDTO.class, userId);
+        log.info("请求的目标地址:{}", targetURLS.get(i));
+        UserDTO forObject = restTemplate.getForObject(targetURLS.get(i), UserDTO.class, userId);*/
+        UserDTO forObject = restTemplate.getForObject("http://user-center/users/{id}", UserDTO.class, userId);
         ShareDTO shareDTO = new ShareDTO();
         //消息装配
         BeanUtils.copyProperties(share, shareDTO);
