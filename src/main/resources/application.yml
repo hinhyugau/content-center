@@ -11,7 +11,7 @@ spring:
         server-addr: nacos.han:8848
         service: content-center
         #namespace: 198b9493-90f1-435e-8b10-3113a628acaa   指定namespace
-        #cluster-name: NJ  指定集群名称
+        cluster-name: BJ  #指定集群名称
   application:
     name: content-center
 logging:
