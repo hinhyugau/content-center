@@ -14,6 +14,18 @@ spring:
         #cluster-name: BJ  #指定集群名称
         metadata:
           version: v1
+  redis:
+    #host: redis.hk
+    #port: 6999
+    password: 91bFYXBcDvi3LyVEDgJJ
+    timeout: 5000
+    cluster:
+      nodes: 43.128.2.172:6379,43.128.2.172:6380,43.128.2.172:6381,43.128.2.172:6382,43.128.2.172:6383,43.128.2.172:6384
+      max-redirects: 3
+  #  cache:
+#    type: redis
+#    redis:
+#      time-to-live: 12000000
   application:
     name: content-center
 logging:

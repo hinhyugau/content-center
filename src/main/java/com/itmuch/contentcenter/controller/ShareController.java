@@ -1,15 +1,13 @@
 package com.itmuch.contentcenter.controller;
 
+import com.baomidou.mybatisplus.extension.api.R;
 import com.itmuch.contentcenter.domain.dto.ShareDTO;
 import com.itmuch.contentcenter.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -42,5 +40,14 @@ public class ShareController {
     @GetMapping("/test")
     public List<ServiceInstance> setDiscoveryClient() {
         return discoveryClient.getInstances("user-center");
+    }
+
+    @GetMapping("/ceshi")
+    public R testRedis(@RequestParam("id") Integer id){
+        return R.ok(this.shareService.selectShareById(id));
+    }
+    @GetMapping("/ceshi1")
+    public R testGetRedis(@RequestParam("id") Integer id){
+        return R.ok(this.shareService.selectShareByIds(id));
     }
 }

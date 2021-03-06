@@ -20,4 +20,8 @@ public interface ShareService extends IService<Share> {
      * @return
      */
     ShareDTO findShareById(Integer id);
+
+    ShareDTO selectShareById(Integer id);
+
+    ShareDTO selectShareByIds(Integer id);
 }

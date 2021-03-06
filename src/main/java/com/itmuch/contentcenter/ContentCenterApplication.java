@@ -2,6 +2,7 @@ package com.itmuch.contentcenter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
  * @return: null
  **/
 @SpringBootApplication
+@EnableCaching
 public class ContentCenterApplication {
 
     public static void main(String[] args) {
