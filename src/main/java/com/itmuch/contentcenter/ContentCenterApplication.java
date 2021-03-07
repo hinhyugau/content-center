@@ -1,9 +1,11 @@
 package com.itmuch.contentcenter;
 
+import com.itmuch.contentcenter.config.UserFeignClientConfiguration;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -15,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
  **/
 @SpringBootApplication
 @EnableCaching
+@EnableFeignClients(defaultConfiguration = UserFeignClientConfiguration.class)
 public class ContentCenterApplication {
 
     public static void main(String[] args) {

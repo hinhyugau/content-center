@@ -4,6 +4,9 @@ package com.itmuch.contentcenter.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.itmuch.contentcenter.domain.Share;
 import com.itmuch.contentcenter.domain.dto.ShareDTO;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 服务接口
@@ -21,7 +24,4 @@ public interface ShareService extends IService<Share> {
      */
     ShareDTO findShareById(Integer id);
 
-    ShareDTO selectShareById(Integer id);
-
-    ShareDTO selectShareByIds(Integer id);
 }

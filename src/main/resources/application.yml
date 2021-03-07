@@ -14,14 +14,15 @@ spring:
         #cluster-name: BJ  #指定集群名称
         metadata:
           version: v1
+        namespace: 198b9493-90f1-435e-8b10-3113a628acaa
   redis:
-    #host: redis.hk
-    #port: 6999
+    host: redis.hk
+    port: 6999
     password: 91bFYXBcDvi3LyVEDgJJ
     timeout: 5000
-    cluster:
-      nodes: 43.128.2.172:6379,43.128.2.172:6380,43.128.2.172:6381,43.128.2.172:6382,43.128.2.172:6383,43.128.2.172:6384
-      max-redirects: 3
+    #cluster:
+    #  nodes: 43.128.2.172:6379,43.128.2.172:6380,43.128.2.172:6381,43.128.2.172:6382,43.128.2.172:6383,43.128.2.172:6384
+    #  max-redirects: 3
   #  cache:
 #    type: redis
 #    redis:
@@ -30,9 +31,8 @@ spring:
     name: content-center
 logging:
   level:
-    com:
-     itmuch:
-      contentcenter: info
+    com.itmuch: debug
+    #com.itmuch.contentcenter.feignclient.UserFeignClient: debug
 server:
   port: 8081
 #user-center:
@@ -42,3 +42,9 @@ ribbon:
   eager-load:
     enabled: true
     clients: user-center
+feign:
+  client:
+    config:
+      # 想要调用的微服务名称
+      user-center:
+        loggerLevel: full

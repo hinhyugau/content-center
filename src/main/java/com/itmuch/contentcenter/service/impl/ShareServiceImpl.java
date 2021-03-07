@@ -4,15 +4,13 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.itmuch.contentcenter.domain.Share;
 import com.itmuch.contentcenter.domain.dto.ShareDTO;
 import com.itmuch.contentcenter.domain.dto.UserDTO;
+import com.itmuch.contentcenter.feignclient.UserFeignClient;
 import com.itmuch.contentcenter.mapper.ShareMapper;
 import com.itmuch.contentcenter.service.ShareService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.BeanUtils;
-import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -31,6 +29,8 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
     private final RestTemplate restTemplate;
 
     private final RedisTemplate redisTemplate;
+
+    private final UserFeignClient userFeignClient;
 
     //private final DiscoveryClient discoveryClient;
 
@@ -56,31 +56,12 @@ public class ShareServiceImpl extends ServiceImpl<ShareMapper, Share> implements
         //用HTTP GET方法请求，并且返回一个对象
         log.info("请求的目标地址:{}", targetURLS.get(i));
         UserDTO forObject = restTemplate.getForObject(targetURLS.get(i), UserDTO.class, userId);*/
-        UserDTO forObject = restTemplate.getForObject("http://user-center/users/{id}", UserDTO.class, userId);
+        //UserDTO forObject = restTemplate.getForObject("http://user-center/users/{id}", UserDTO.class, userId);
+        UserDTO userBuId = this.userFeignClient.findUserBuId(id);
         ShareDTO shareDTO = new ShareDTO();
         //消息装配
         BeanUtils.copyProperties(share, shareDTO);
-        shareDTO.setWxNickname(forObject.getWxNickname());
-        return shareDTO;
-    }
-
-    @Cacheable(value = "share", key = "'id:'+#id", unless = "#result == null")
-    @Override
-    public ShareDTO selectShareById(Integer id) {
-        Share share = this.baseMapper.selectById(id);
-        ShareDTO shareDTO = new ShareDTO();
-        //this.redisTemplate.boundHashOps(shareDTO);
-        this.redisTemplate.opsForHash().put(share.getId().toString(),share.getUserId().toString(),share);
-        BeanUtils.copyProperties(share, shareDTO);
-        return shareDTO;
-    }
-
-    @Override
-    public ShareDTO selectShareByIds(Integer id) {
-        Share share = this.baseMapper.selectById(id);
-        Object o = this.redisTemplate.opsForHash().get(share.getId().toString(), share.getUserId().toString());
-        ShareDTO shareDTO = new ShareDTO();
-        BeanUtils.copyProperties(o, shareDTO);
+        shareDTO.setWxNickname(userBuId.getWxNickname());
         return shareDTO;
     }
 }

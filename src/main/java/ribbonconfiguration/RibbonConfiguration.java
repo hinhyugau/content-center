@@ -1,6 +1,7 @@
 package ribbonconfiguration;
 
 import com.itmuch.contentcenter.config.NacosSameMetaDataWrigthRule;
+import com.itmuch.contentcenter.config.NacosWeightedRule;
 import com.netflix.loadbalancer.IRule;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +17,6 @@ public class RibbonConfiguration {
 
     @Bean
     public IRule ribbonRule() {
-        return new NacosSameMetaDataWrigthRule();
+        return new NacosWeightedRule();
     }
 }
